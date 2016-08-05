@@ -15,7 +15,7 @@ class ShipsController < ApplicationController
     end
     if place_aircraft(player, game).nil?
       game.tiles.where(player_id: player.id).each do |tile|
-        if tile.ship
+        if tile.ship-
           tile.ship.destroy
         end
         tile.ship_id = nil
