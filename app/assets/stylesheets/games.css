@@ -84,9 +84,4 @@ body {
 .preview_coord {
   border: 1px solid black;
   width: 5px;
-  height: 5px;
-
-
-head {
-  background-color: blue;
-}
+  height: 5px; }
