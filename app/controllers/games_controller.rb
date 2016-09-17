@@ -1,6 +1,7 @@
 require 'json'
 class GamesController < ApplicationController
-  before_action :redirect, except: [:new, :create, :join]
+  before_action :redirect_game, except: [:new, :create, :join]
+  before_action :redirect, only: [:join]
   before_action :current_user
   before_action :current_game, :opponent, only: [:turn, :show, :update, :hit, :hold, :destroy]
 
@@ -109,7 +110,7 @@ private
     end
   end
 
-  def redirect
+  def redirect_game
     if !logged_in?
       redirect_to '/',
       alert: "Please log in"
@@ -120,6 +121,13 @@ private
         redirect_to '/',
         alert: "You are not a player in this game."
       end
+    end
+  end
+
+  def redirect
+    if !logged_in?
+      redirect_to '/',
+      alert: "Please log in"
     end
   end
 

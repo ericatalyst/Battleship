@@ -1,5 +1,5 @@
 class UsersController < ApplicationController
-before_action :current_user, only: [:show, :index, :destroy]
+before_action :current_user, :redirect, only: [:show, :index, :destroy]
 
   def create
     @user = User.new(user_params)
@@ -51,17 +51,19 @@ before_action :current_user, only: [:show, :index, :destroy]
       total_games = Game.where(player_1_id: user.id) + Game.where(player_2_id: user.id)
       ships_lost = []
       ships_sunk = []
-      total_games.each do |game|
-        game.ships.each do |ship|
-          if ship.is_destroyed?
-            if ship.tiles.first.player_id == user.id
-              ships_lost << ship
-            else
-              ships_sunk << ship
-            end
-          end
-        end
-      end
+
+      # total_games.each do |game|
+      #   game.ships.each do |ship|
+      #     if ship.is_destroyed?
+      #       if ship.tiles.first.player_id == user.id
+      #         ships_lost << ship
+      #       else
+      #         ships_sunk << ship
+      #       end
+      #     end
+      #   end
+      # end
+
       @user_ships_record << {user_id: user.id, ships: {sunk: ships_sunk, lost: ships_lost}}
     end
   end
@@ -81,5 +83,12 @@ private
   def user_params
     params.require(:user).permit(:username, :password)
   end
-  
+
+  def redirect
+    if !logged_in?
+      redirect_to '/',
+      alert: "Please log in."
+    end
+  end
+
 end
