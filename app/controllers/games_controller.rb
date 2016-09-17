@@ -1,5 +1,4 @@
 require 'json'
-
 class GamesController < ApplicationController
   before_action :redirect, except: [:new, :create, :join]
   before_action :current_user
@@ -111,17 +110,22 @@ private
   end
 
   def redirect
-    p1 = Game.find(params[:id]).player_1
-    p2 = Game.find(params[:id]).player_2
-    if !logged_in? || (logged_in? && current_user != p1 && current_user != p2)
-      redirect_to '/'
+    if !logged_in?
+      redirect_to '/',
+      alert: "Please log in"
+    else
+      p1 = Game.find(params[:id]).player_1
+      p2 = Game.find(params[:id]).player_2
+      if current_user != p1 && current_user != p2
+        redirect_to '/',
+        alert: "You are not a player in this game."
+      end
     end
   end
 
   def current_game
     @current_game ||= Game.find(params[:id])
   end
-
 
   def opponent
     if @current_user == current_game.player_1
@@ -142,7 +146,6 @@ private
     end
   end
 
-
   def user_game_over?
     if !@current_game.tiles.empty?
       your_tiles = @current_game.tiles.where(player_id: @current_user.id)
@@ -156,7 +159,6 @@ private
     return false
   end
 
-
   def opponent_game_over?
     if !@current_game.tiles.empty?
       opponent_tiles = @current_game.tiles.where(player_id: opponent.id)
@@ -169,6 +171,5 @@ private
     end
     return false
   end
-
 
 end

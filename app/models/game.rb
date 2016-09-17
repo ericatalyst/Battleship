@@ -4,6 +4,7 @@ class Game < ApplicationRecord
   has_many :ships
   has_many :tiles
 
+private
 
   def create_tiles(user_id)
     rows = %w(a b c d e f g h i j)
@@ -16,8 +17,6 @@ class Game < ApplicationRecord
     end
   end
 
-
-
   def create_opponent_tiles(opponent_id)
     rows = %w(a b c d e f g h i j)
     cols = %w(1 2 3 4 5 6 7 8 9 10)
@@ -28,4 +27,5 @@ class Game < ApplicationRecord
       end
     end
   end
+
 end

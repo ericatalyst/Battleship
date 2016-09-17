@@ -177,7 +177,6 @@ private
       end
     end
     if valid_tiles.empty?
-      binding.pry
       return nil
     else
       ship.tiles << valid_tiles
@@ -212,10 +211,16 @@ private
   end
 
   def redirect
-    p1 = Game.find(params[:id]).player_1
-    p2 = Game.find(params[:id]).player_2
-    if !logged_in? || (logged_in? && current_user != p1 && current_user != p2)
-      redirect_to '/'
+    if !logged_in?
+      redirect_to '/',
+      alert: "Please log in"
+    else
+      p1 = Game.find(params[:id]).player_1
+      p2 = Game.find(params[:id]).player_2
+      if current_user != p1 && current_user != p2
+        redirect_to '/',
+        alert: "You are not a player in this game."
+      end
     end
   end
 
