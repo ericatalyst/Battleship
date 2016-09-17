@@ -1,4 +1,3 @@
-<p align="center">
 **Group Project: Battleship!**
 
 ![Setting Ships](/app/assets/images/_setships.png)
@@ -9,5 +8,3 @@
 
 ![Top Scores](/app/assets/images/_userindex.png)
 *User history is saved and top scores are shown.*
-
-</p>
